@@ -2,20 +2,74 @@
 <html>
 <head>
     <title>Survey Creator Example</title>
+
     <link href="https://unpkg.com/survey-core/defaultV2.min.css" type="text/css" rel="stylesheet" />
+
     <link href="https://unpkg.com/survey-creator-core/survey-creator-core.min.css" type="text/css" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #surveyCreatorContainer {
+            min-height: 800px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>Survey Creator</h1>
+
     <div id="surveyCreatorContainer"></div>
 
     <script type="text/javascript" src="https://unpkg.com/survey-core/survey.core.min.js"></script>
+
     <script type="text/javascript" src="https://unpkg.com/survey-creator-core/survey-creator-core.min.js"></script>
 
     <script type="text/javascript">
-        // Đảm bảo đoạn mã này nằm sau thẻ script trên
+        // Tùy chọn cho Survey Creator (để trống nếu không cần)
+        const creatorOptions = {
+            showLogicTab: true
+        }; 
+
+        // Khởi tạo một thể hiện của SurveyCreator
         const creator = new SurveyCreator.SurveyCreator(creatorOptions);
+
+        // Hiển thị Survey Creator trong phần tử div đã tạo
         creator.render("surveyCreatorContainer");
+
+        // Một ví dụ về cách lấy dữ liệu JSON của khảo sát khi người dùng lưu
+        creator.saveSurveyFunc = (saveNo, callback) => {
+            // Lấy dữ liệu JSON của khảo sát
+            const surveyJson = creator.text;
+
+            // In dữ liệu ra console để kiểm tra
+            console.log("Dữ liệu khảo sát:", surveyJson);
+
+            // Ở đây, bạn có thể gửi dữ liệu JSON này đến máy chủ của mình
+            // Ví dụ: sử dụng fetch API
+            // fetch("your-api-endpoint", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json"
+            //     },
+            //     body: JSON.stringify({
+            //         surveyId: "my-survey-id",
+            //         surveyJson: surveyJson
+            //     })
+            // }).then(response => {
+            //     if (response.ok) {
+            //         callback(saveNo, true); // Lưu thành công
+            //     } else {
+            //         callback(saveNo, false); // Lưu thất bại
+            //     }
+            // });
+
+            // Đối với ví dụ này, chúng ta sẽ giả định là lưu thành công
+            callback(saveNo, true); 
+        };
     </script>
 </body>
 </html>
